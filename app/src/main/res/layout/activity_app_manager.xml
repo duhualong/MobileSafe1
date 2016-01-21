@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="#8866ff"
+        android:gravity="center"
+        android:text="我的软件"
+        android:textColor="#000000"
+        android:textSize="22sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_room"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/room_free"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tv_sd"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/sd_free"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+    </LinearLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <include
+        android:id="@+id/list_view"
+        layout="@layout/list_view">
+
+    </include>
+<TextView
+    android:id="@+id/tv_app"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ff888888"
+    android:textColor="#fff"
+    android:textSize="18sp"
+    android:text="用户程序(0)个"/>
+    </FrameLayout>
+</LinearLayout>
