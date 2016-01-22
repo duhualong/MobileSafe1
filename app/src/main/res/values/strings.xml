@@ -13,4 +13,7 @@
     <string name="title_activity_call_safe">CallSafeActivity</string>
     <string name="room_free">内存可用:xxx</string>
     <string name="sd_free">SD卡可用:xxx</string>
+    <string name="senior_tools">高级工具</string>
+    <string name="number_location_lookup">号码归属地查询</string>
+    <string name="Sms_backup">短信备份</string>
 </resources>

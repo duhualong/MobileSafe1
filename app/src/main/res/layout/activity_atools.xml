@@ -7,11 +7,11 @@
     android:id="@+id/textView1"
     android:layout_width="match_parent"
     android:layout_height="55dp"
-    android:background="#8866ff"
+    android:background="@color/blue"
     android:gravity="center"
-    android:text="高级工具"
-    android:textColor="#000000"
-    android:textSize="22sp"/>
+    android:text="@string/senior_tools"
+    android:textColor="@color/black"
+    android:textSize="@dimen/text_title_size"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,9 +21,9 @@
         android:drawableLeft="@android:drawable/ic_menu_camera"
         android:gravity="center_vertical"
         android:onClick="numberQuery"
-        android:text="号码归属地查询"
-        android:textColor="#000000"
-        android:textSize="20sp"/>
+        android:text="@string/number_location_lookup"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_content_size"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
         android:drawableLeft="@drawable/ic_sms"
         android:gravity="center_vertical"
         android:onClick="backUpsms"
-        android:text="短信备份"
-        android:textColor="#000000"
-        android:textSize="20sp"/>
+        android:text="@string/Sms_backup"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_content_size"/>
 </LinearLayout>
