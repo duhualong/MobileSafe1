@@ -179,6 +179,41 @@ public class CallSafeService extends Service {
         registerReceiver(innerReceiver, intentFilter);
     }
 
+    //删掉电话号码
+    private void deleteCallLog(String incomingNumber) {
+        Uri uri = Uri.parse("content://call_log/calls");
+        getContentResolver().delete(uri,"number=?",new String[]{incomingNumber});
+
+    }
+
+    /**
+     * 挂断电话
+     */
+    private void endCall() {
+
+        try {
+            //通过类加载器加载ServiceManager
+            Class<?> clazz = getClassLoader().loadClass("android.os.ServiceManager");
+            //通过反射得到当前的方法
+            Method method = clazz.getDeclaredMethod("getService", String.class);
+
+            IBinder iBinder = (IBinder) method.invoke(null, TELEPHONY_SERVICE);
+
+            ITelephony iTelephony = ITelephony.Stub.asInterface(iBinder);
+
+            iTelephony.endCall();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
     private class MyPhoneStateListener extends PhoneStateListener {
         //电话状态改变的监听
         @Override
@@ -188,6 +223,12 @@ public class CallSafeService extends Service {
 //            * @see TelephonyManager#CALL_STATE_RINGING 电话铃响的状态
 //            * @see TelephonyManager#CALL_STATE_OFFHOOK 电话接通
             switch (state){
+                //空闲模式
+                case  TelephonyManager.CALL_STATE_IDLE:
+                    break;
+                //接通模式
+                case TelephonyManager.CALL_STATE_OFFHOOK:
+                    break;
                 //电话铃响的状态
                 case TelephonyManager.CALL_STATE_RINGING:
 
@@ -238,37 +279,6 @@ public class CallSafeService extends Service {
             super.onChange(selfChange);
         }
     }
-    //删掉电话号码
-    private void deleteCallLog(String incomingNumber) {
-
-        Uri uri = Uri.parse("content://call_log/calls");
-
-        getContentResolver().delete(uri,"number=?",new String[]{incomingNumber});
-
-    }
-
-    /**
-     * 挂断电话
-     */
-    private void endCall() {
-
-        try {
-            //通过类加载器加载ServiceManager
-            Class<?> clazz = getClassLoader().loadClass("android.os.ServiceManager");
-            //通过反射得到当前的方法
-            Method method = clazz.getDeclaredMethod("getService", String.class);
-
-            IBinder iBinder = (IBinder) method.invoke(null, TELEPHONY_SERVICE);
-
-            ITelephony iTelephony = ITelephony.Stub.asInterface(iBinder);
-
-            iTelephony.endCall();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
 
     private class InnerReceiver extends BroadcastReceiver {
 
@@ -302,10 +312,5 @@ public class CallSafeService extends Service {
                 }
             }
         }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
     }
 }

@@ -1,14 +1,22 @@
 package com.mobilesafe;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.mobilesafe.utils.SmsUtils;
+import com.mobilesafe.utils.UIUtils;
+
 /**
- * Created by ` on 2016/1/14.
+ *
+ * 高级工具
  */
 public class AtoolsActivity extends Activity {
+
+    private ProgressDialog pd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +30,39 @@ public class AtoolsActivity extends Activity {
     public  void numberQuery(View view){
         Intent intent=new Intent(this,NumberAddressQueryActivity.class);
         startActivity(intent);
+
+    }
+
+    /**
+     * 短信备份
+     * @param view
+     */
+    public  void backUpsms(View view){
+        //初始化一个进度条的对话框
+        pd = new ProgressDialog(AtoolsActivity.this);
+        pd.setTitle("提示");
+        pd.setMessage("正在备份中，请稍后。。。。");
+        pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        pd.show();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                boolean result=SmsUtils.bakUp(AtoolsActivity.this,pd);
+                if (result){
+//                    Looper.prepare();
+//                    Toast.makeText(AtoolsActivity.this,"备份成功",Toast.LENGTH_SHORT).show();
+//                    Looper.loop();
+                    UIUtils.showToast(AtoolsActivity.this,"备份成功");
+                }else {
+//                    Looper.prepare();
+//                    Toast.makeText(AtoolsActivity.this,"备份失败",Toast.LENGTH_SHORT).show();
+//                    Looper.loop();
+                    UIUtils.showToast(AtoolsActivity.this,"备份失败");
+
+                }
+                pd.dismiss();
+            }
+        }).start();
 
     }
 }
