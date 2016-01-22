@@ -1,6 +1,5 @@
 package com.mobilesafe.utils;
 
-import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
@@ -19,7 +18,7 @@ import java.io.FileOutputStream;
  * 短信备份的工具类
  */
 public class SmsUtils {
-    public static boolean bakUp(Context context, ProgressDialog pd) {
+    public static boolean bakUp(Context context,BackUpCallBackSms callback) {
 
         //备份短信 1判断拥护手机上面是否有sd卡   2权限--   使用内容观察者   3写短信（写到sd卡）
 
@@ -36,7 +35,8 @@ public class SmsUtils {
             //获取一共有多少短信
 
             int count=cursor.getCount();
-            pd.setMax(count);
+          //  progressBar1.setMax(count);
+            callback.befor(count);
             int process=0;
             try {
                 //把短信备份到sd卡，第二个参数表示名字
@@ -75,7 +75,8 @@ public class SmsUtils {
                     serializer.endTag(null, "sms");
                     //序列化一条短信后++
                     process++;
-                    pd.setProgress(process);
+                  //  progressBar1.setProgress(process);
+                    callback.onBackUpSms(process);
                     SystemClock.sleep(20);
 
                 }
@@ -90,6 +91,13 @@ public class SmsUtils {
             }
         }
         return false;
+    }
+    /**
+     * 备份短信的接口
+     */
+    public  interface  BackUpCallBackSms{
+          void befor(int count);
+          void onBackUpSms(int process);
     }
 
 }
