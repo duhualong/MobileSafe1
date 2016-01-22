@@ -70,8 +70,15 @@ public class SmsUtils {
                     serializer.text(cursor.getString(2));
                     serializer.endTag(null, "type");
                     serializer.startTag(null, "body");
-                    serializer.text(cursor.getString(3));
+                    //读取短信的内容
+                    /**
+                     * 加密
+                     * 第一个参数表示加密种子（秘钥）
+                     * 第二个参数加密的内容
+                     */
+                    serializer.text(Crypto.encrypt("123", cursor.getString(3)));
                     serializer.endTag(null, "body");
+
                     serializer.endTag(null, "sms");
                     //序列化一条短信后++
                     process++;
