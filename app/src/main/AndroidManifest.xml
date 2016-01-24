@@ -16,17 +16,18 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="android.permission.WIFI_STATE_CHANGED"/>
-    <uses-permission android:name="android.launcher2.permission.READ_SETTINGS"/>
+    <uses-permission android:name="android.permission.WIFI_STATE_CHANGED" />
+    <uses-permission android:name="android.launcher2.permission.READ_SETTINGS" />
     <!-- 挂断手机的权限 -->
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <!-- 读取手机状态的权限 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.READ_CALL_LOG"/>
-    <uses-permission android:name="android.permission.WRITE_CALL_LOG"/>
-    <uses-permission android:name="android.permission.READ_SMS"/>
-    <!--  写入消息-->
+    <uses-permission android:name="android.permission.READ_CALL_LOG" />
+    <uses-permission android:name="android.permission.WRITE_CALL_LOG" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <!-- 写入消息 -->
     <uses-permission android:name="android.permission.WRITE_SMS" />
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
 
     <application
         android:allowBackup="true"
@@ -34,6 +35,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <!-- 欢迎界面 -->
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,7 +44,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".HomeActivity" />
+        <!-- 首页 -->
+        <activity android:name=".HomeActivity">
+            <intent-filter>
+
+                <!-- 这个名字可以随便取 -->
+                <action android:name="aaa.bbb.ccc" />
+                //
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity android:name=".SettingActivity" />
         <activity android:name=".LostFindActivity" />
         <activity android:name=".Setup1Activity" />
@@ -55,6 +67,9 @@
             android:name=".DragViewActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name=".CallSafeActivity" />
+        <activity android:name=".AppManagerActivity" />
+        <!-- 进程管理 -->
+        <activity android:name=".TaskManagerActivity" />
 
         <receiver android:name=".receiver.BootCompleteReceiver">
             <intent-filter>
@@ -77,7 +92,8 @@
             android:name=".service.CallSafeService"
             android:enabled="true"
             android:exported="true" />
-        <activity android:name=".AppManagerActivity"/>
+
+        <activity android:name=".engine.TaskInfoParser"></activity>
     </application>
 
 </manifest>

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -46,69 +47,6 @@ public class MainActivity extends Activity {
     private String aplurl;
     private  TextView tv_update_info;
     private SharedPreferences sp;
-
-
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        sp=getSharedPreferences("config",MODE_PRIVATE);
-        tv_main_version= (TextView) findViewById(R.id.tv_main_version);
-        tv_main_version.setText("版本号" + getVersionName());
-        tv_update_info= (TextView) findViewById(R.id.tv_update_info);
-        boolean update=sp.getBoolean("update",false);
-        //拷贝数据库
-        copyDB();
-        if (update){
-            //检查升级
-            checkupdate();
-        }else {
-            //自动升级已经关闭
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    enterHome();
-                }
-            },2000);
-     }
-
-
-        AlphaAnimation aa=new AlphaAnimation(0.2f,1.0f);
-        aa.setDuration(500);
-        findViewById(R.id.rl_root_main).startAnimation(aa);
-
-    }
-
-    /**
-     * path 把address.db这个数据库拷贝到data/data/《包名》/file/address.db
-     */
-
-    private void copyDB() {
-        //只要拷贝一次，我就不要你再拷贝
-        try {
-            File file=new File(getFilesDir(),"address.db");
-            if (file.exists()&&file.length()>0){
-                //正常不需要拷贝
-                Log.i(TAG,"不需要拷贝");
-            }else{
-                InputStream is= getAssets().open("address.db");
-                FileOutputStream fos=new FileOutputStream(file);
-                byte[] buffer=new byte[1024];
-                int len=0;
-                while ((len=is.read(buffer))!=-1){
-                    fos.write(buffer,0,len);
-                }
-                is.close();
-                fos.close();
-            }
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     private Handler handler=new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
@@ -141,6 +79,96 @@ public class MainActivity extends Activity {
         }
     });
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        sp=getSharedPreferences("config",MODE_PRIVATE);
+        tv_main_version= (TextView) findViewById(R.id.tv_main_version);
+        tv_main_version.setText("版本号" + getVersionName());
+        tv_update_info= (TextView) findViewById(R.id.tv_update_info);
+        boolean update=sp.getBoolean("update",false);
+        //拷贝数据库
+        copyDB();
+        //创建快捷方式
+        createShortcut();
+        if (update){
+            //检查升级
+            checkupdate();
+        }else {
+            //自动升级已经关闭
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    enterHome();
+                }
+            },2000);
+     }
+
+
+        AlphaAnimation aa=new AlphaAnimation(0.2f,1.0f);
+        aa.setDuration(500);
+        findViewById(R.id.rl_root_main).startAnimation(aa);
+
+    }
+
+    /**
+     * 快捷fangs
+     */
+    private void createShortcut() {
+        Intent intent=new Intent();
+        intent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+        //如果设置为true表示可以创建重复的快捷方式
+        intent.putExtra("duplicate",false);
+
+        /**
+         * 干什么事情
+         * 叫什么名字
+         * 长成什么样子
+         */
+        intent.putExtra(Intent.EXTRA_SHORTCUT_ICON,
+                BitmapFactory.decodeResource(getResources(), R.drawable.head));
+        intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, "清道夫");
+
+//干什么事情
+        /**
+         * 不能使用显式意图，必须使用隐式意图
+         */
+        Intent shortcut_intent=new Intent();
+        shortcut_intent.setAction("aaa.bbb.ccc");
+        shortcut_intent.addCategory("android.intent.category.DEFAULT");
+        intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT,shortcut_intent);
+        sendBroadcast(intent);
+    }
+
+    /**
+     * path 把address.db这个数据库拷贝到data/data/《包名》/file/address.db
+     */
+
+    private void copyDB() {
+        //只要拷贝一次，我就不要你再拷贝
+        try {
+            File file=new File(getFilesDir(),"address.db");
+            if (file.exists()&&file.length()>0){
+                //正常不需要拷贝
+                Log.i(TAG,"不需要拷贝");
+            }else{
+                InputStream is= getAssets().open("address.db");
+                FileOutputStream fos=new FileOutputStream(file);
+                byte[] buffer=new byte[1024];
+                int len=0;
+                while ((len=is.read(buffer))!=-1){
+                    fos.write(buffer,0,len);
+                }
+                is.close();
+                fos.close();
+            }
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * 弹出升级对话框

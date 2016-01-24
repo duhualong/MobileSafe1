@@ -25,14 +25,19 @@ import com.mobilesafe.utils.MD5Utils;
  */
 public class HomeActivity extends Activity {
     private static final String TAG = "HomeActivity";
-    private GridView list_home;
-    private MyAdapter adapter;
-    private SharedPreferences sp;
     private  static  String[] names={"手机防盗","通讯卫视","软件管理","进程管理","流量统计","手机杀毒",
     "缓存清理","高级工具","设置中心"};
     private static int[] ids={R.drawable.safe,R.drawable.callmsgsafe,R.drawable.app,
             R.drawable.taskmanager,R.drawable.netmanager,R.drawable.trojan,
             R.drawable.sysoptimize,R.drawable.atools,R.drawable.settings};
+    private GridView list_home;
+    private MyAdapter adapter;
+    private SharedPreferences sp;
+    private EditText et_setup_pwd;
+    private EditText et_setup_confirm;
+    private Button ok;
+    private Button cancel;
+    private AlertDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +55,13 @@ public class HomeActivity extends Activity {
                       showLostFindDialog();
                         break;
                     case 1://通讯卫士
-                      startActivity(new Intent(HomeActivity.this,CallSafeActivity.class));
+                      startActivity(new Intent(HomeActivity.this, CallSafeActivity.class));
                         break;
                     case 2://软件管理
                         startActivity(new Intent(HomeActivity.this,AppManagerActivity.class));
+                        break;
+                    case 3://进程管理
+                        startActivity(new Intent(HomeActivity.this,TaskManagerActivity.class));
                         break;
                     case 7: //进入高级工具
                         Intent intents=new Intent(HomeActivity.this,AtoolsActivity.class);
@@ -83,11 +91,6 @@ public class HomeActivity extends Activity {
         }
 
     }
-    private EditText et_setup_pwd;
-    private EditText et_setup_confirm;
-    private Button ok;
-    private Button cancel;
-    private AlertDialog dialog;
 
     /**
      *设置密码对话框
