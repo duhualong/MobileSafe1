@@ -26,10 +26,35 @@ import android.graphics.drawable.Drawable;
  */
 public class TaskInfo {
     private Drawable icon;
+
     private String packageName;
-    private  String appName;
-    private  long memorySize;
-    private  boolean userApp;
+
+    private String appName;
+
+    private long memorySize;
+
+
+
+    /**
+     * 是否是用户进程
+     */
+    private boolean userApp;
+
+    /**
+     * 判断当前的item的条目是否被勾选上
+     */
+    private boolean checked;
+
+
+
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+    }
 
     public Drawable getIcon() {
         return icon;
@@ -73,11 +98,11 @@ public class TaskInfo {
 
     @Override
     public String toString() {
-        return "TaskInfo{" +
-                "packageName='" + packageName + '\'' +
-                ", appName='" + appName + '\'' +
-                ", memorySize=" + memorySize +
-                ", userApp=" + userApp +
-                '}';
+        return "TaskInfo [packageName=" + packageName + ", appName=" + appName
+                + ", memorySize=" + memorySize + ", userApp=" + userApp + "]";
     }
+
+
+
+
 }
