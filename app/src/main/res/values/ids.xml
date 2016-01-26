@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item type="id" name="tv_mode" />
-    <item type="id" name="tv_number" />
+    <item name="tv_mode" type="id" />
+    <item name="tv_number" type="id" />
+    <item name="process_count" type="id"/>
+    <item name="process_memory" type="id"/>
 </resources>

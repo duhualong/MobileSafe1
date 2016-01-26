@@ -36,6 +36,7 @@ public class TaskManagerActivity extends Activity {
     private long availMem;
     private TextView tv_task_memory;
     private TextView tv_task_process_count;
+    private CheckBox tv_app_status;
     //	private SharedPreferences sp;
 
     @Override
@@ -108,7 +109,7 @@ public class TaskManagerActivity extends Activity {
         tv_task_memory = (TextView) findViewById(R.id.tv_task_memory);
         tv_task_process_count = (TextView) findViewById(R.id.tv_task_process_count);
         list_view = (ListView) findViewById(R.id.list_view);
-
+        tv_app_status = (CheckBox)findViewById(R.id.tv_app_status);
         processCount = SystemInfoUtils.getProcessCount(this);
 
         tv_task_process_count.setText("进程:" + processCount + "个");
@@ -137,7 +138,7 @@ public class TaskManagerActivity extends Activity {
 
                     ViewHolder holder = (ViewHolder) view.getTag();
 
-                    if(taskInfo.getPackageName().equals(getPackageName())){
+                    if (taskInfo.getPackageName().equals(getPackageName())) {
                         return;
                     }
 

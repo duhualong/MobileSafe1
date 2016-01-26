@@ -70,7 +70,7 @@
         <activity android:name=".AppManagerActivity" />
         <!-- 进程管理 -->
         <activity android:name=".TaskManagerActivity" />
-        <activity android:name=".TaskManagerSettingActivity"/>
+        <activity android:name=".TaskManagerSettingActivity" />
 
         <receiver android:name=".receiver.BootCompleteReceiver">
             <intent-filter>
@@ -82,6 +82,22 @@
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
+        <!-- 桌面小部件的配置 -->
+        <receiver android:name=".receiver.MyAppWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/example_appwidget_info" />
+        </receiver>
+        <!-- 清理所有进程今 -->
+        <receiver android:name=".receiver.KillProcessAllReceiver">
+            <intent-filter>
+                <action android:name="com.mobilesafe" />
+            </intent-filter>
+        </receiver>
         <!-- <receiver android:name=".receiver.OutCallReceiver"> -->
         <!-- <intent-filter > -->
         <!-- <action android:name="android.intent.action.NEW_OUTGOING_CALL"/> -->
@@ -89,12 +105,14 @@
         <!-- </receiver> -->
         <service android:name=".service.GpsService" />
         <service android:name=".service.AddressService" />
-        <service android:name=".service.KillProcessService"/>
+        <service android:name=".service.KillProcessService" />
         <service
             android:name=".service.CallSafeService"
             android:enabled="true"
             android:exported="true" />
+        <service android:name=".service.KillProcesWidgetService" />
 
+        <activity android:name=".AntivirusActivity"></activity>
     </application>
 
 </manifest>
