@@ -52,4 +52,5 @@ public class AntivirusActivity extends AppCompatActivity {
         // 开始动画
         iv_scanning.startAnimation(rotateAnimation);
     }
+
 }
